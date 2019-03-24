@@ -1,5 +1,3 @@
-// var http = require("http");
-
 function checkPassword(){
 	var xhttp = new XMLHttpRequest();
 	var user = document.getElementById("inputuser").value;
@@ -9,15 +7,14 @@ function checkPassword(){
 	
 	document.getElementById("inputuser").value = '';
 	document.getElementById("inputpassword").value = '';
-	
-//  	document.getElementById("response").innerHTML = "Invalid User";
   	
   	xhttp.onreadystatechange = function() {
     	if (this.readyState == 4 && this.status == 200) {
     		if (this.responseText == "true"){
-				location.reload();
-    		} else{
-				document.getElementById("response").innerHTML = "Invalid User";
+				location.href = '/home.html';
+    		} else if (this.responseText == "false"){
+    			document.getElementById("response").color = "red";
+				document.getElementById("response").innerHTML = "Invalid Login";
     		}
     	}
   	};
