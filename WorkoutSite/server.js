@@ -7,7 +7,7 @@ var DataBase = require('./DataBase.js');
 
 var lock = true;
 var app = express();
-var db = new DataBase('localhost', 'root', '12345678','workouts');
+var db = new DataBase('localhost', 'root', '12345678','Workout');
 
 app.use(bodyparser.urlencoded({extended: false}));
 app.use(bodyparser.json());
@@ -29,14 +29,19 @@ http.createServer(function(req,res){
 app.post('/CheckPassword', function(req,res){
 	db.checkUserAuth(req.body.User, function(results){
 		if (results == req.body.Password){
-			db.disconnect();
-			db.reconnect('Chatrooms');
 			lock = false;
 			res.write("true");
 		}else {
 			res.write("false");
 		}
 		return res.end();	
+	});
+});
+
+app.post('/Register', function(req,res){
+	db.createUser(req.body.User, req.body.Password, function(results){
+		res.write(results);
+		return res.end();
 	});
 });
 
@@ -159,7 +164,15 @@ function load(req, res){
 	var query = url.parse(req.url, true);
 	var file = "." + query.pathname;
 	
-	if (lock && file != './login.js') file = './login.html';
+	//console.log(query);
+	
+// 	if (file == './login.html'){
+// 		console.log('trythis');
+// 		res.writeHead(301, {"Location": '/home.html'});
+// 		return res.end();
+// 	}
+	
+	if (lock && (file != './images/bg/workout-1.jpg' && file != './login.js' && file != './register.js' && file != './register.html' && file != './login.html')) file = './login.html';
 	
 	fs.readFile(file, function(err, data) {
 		
