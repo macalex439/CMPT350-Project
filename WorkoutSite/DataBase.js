@@ -39,8 +39,19 @@ class DataBase{
 	
 	}
 	
+	createUser(user, pw, callback){
+		var sql = "INSERT INTO logins (username, password) VALUES ('" + user + "', '" + pw + "')";
+		this.con.query(sql, function(err, results, fields){
+			if (err){
+				if (err.code == 'ER_DUP_ENTRY') return callback('false');
+				else throw err;
+			} else {	
+				return callback('true');
+			}
+		});
+	}
 	checkUserAuth(user, callback){
-		var sql = "SELECT password FROM users WHERE userid = '" + user + "'";
+		var sql = "SELECT password FROM logins WHERE username= '" + user + "'";
 		this.con.query(sql, function(err, results, fields){
 			if (err) throw err;
 			if (results[0]){
