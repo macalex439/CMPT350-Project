@@ -19,25 +19,45 @@
 			#inputpassword {
 				width: 300px;
 			}
+			#page {
+    		background: url('images/bg/workout-1.jpg');
+    		background-repeat:no-repeat;
+    		background-position:center center;
+    		background-attachment:scroll;
+    		background-size:100% 100%;
+			}
+			.ui-page {
+   			 background: transparent;
+			}
+			.ui-content{
+    		background: transparent;
+			}
+			
 		</style>
 	</head>
 	
 	<body>
 
-	<div data-role = "page" data-theme = "a">		
-	<div data-role = "header"> <h1> GymTracker Login </h1> </div>
+	<!div data-role="page" id="page" style="background-image: url('workout-1.jpg'); background-attachment: fixed; background-repeat: no-repeat; background-size: 100% 100%;"
+    data-theme="a">
+	<div data-role = "page" id = "page" data-theme = "a">		
+	<div data-role = "header"> <h1>  Sign In To Your GymTracker Account </h1> </div>
 	
+		<br></br><br></br><br></br>
 		
-		<center><h2><font color = "red" required id = "response"> </font></h2></center> 
+		<center><h2><font color = "black" required id = "response"> Sign In To Your Account </font></h2></center> 
 
-		<center><input id = "inputuser" type = "text" cols = "30" required
+		<center><input id = "inputuser" type = "text" required
 	              placeholder = "Input User" > </input></center>
 	
-		<center><input id = "inputpassword" type = "password" col = "30" required
+		<center><input id = "inputpassword" type = "password" required
 		   placeholder = "Input Password" > </input></center>
 	
 		<center><button id = "checklogin" type = "button" onclick = "checkPassword()" 
 			data-inline="true">Sign In </button></center>
+			
+		<a href="register.html" rel="external" data-transition="fade"> 
+			<center> Click to Register </center> </a>
 		
 		</div>
 	</body>
