@@ -45,6 +45,13 @@ app.post('/Register', function(req,res){
 	});
 });
 
+app.get('/SignOut', function(req,res){
+	lock = true;
+	res.write("true");
+	return res.end();
+});
+
+
 app.get('/HighFilter', function(req,res){
 	var chatRooms = '';
 	db.filterHighChatRooms(function(results){
@@ -174,16 +181,25 @@ function load(req, res){
 	
 	if (lock && (file != './images/bg/workout-1.jpg' && file != './login.js' && file != './register.js' && file != './register.html' && file != './login.html')) file = './login.html';
 	
+	if (!lock && (file == './login.html' || file == './register.html')) file = './home.html';
+	 
 	fs.readFile(file, function(err, data) {
 		
 		if (err) {
-			res.writeHead(404, {"Content-Type": "text/html"});
-			return res.end("404: Error, Page Not Found");
-		}
+			fs.readFile("./page404.html",function(err1,data1){
+				if (err1) throw err1;
+				res.writeHead(404, {"Content-Type": "text/html"});
+				res.write(data1);
+				return res.end();
+			});// 
+// 			res.writeHead(404, {"Content-Type": "text/html"});
+// 			return res.end("404: Error, Page Not Found");
+		} else {
 		
 		res.writeHead(200, {"Content-Type": "text/html"});
 		res.write(data);
- 		return res.end(); 		
+ 		return res.end();
+ 		} 		
 	} );
 }
 
