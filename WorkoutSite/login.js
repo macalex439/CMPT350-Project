@@ -7,6 +7,13 @@ function checkPassword(){
 	
 	document.getElementById("inputuser").value = '';
 	document.getElementById("inputpassword").value = '';
+	
+	if (user.indexOf(' ') > 0){
+    	document.getElementById("response").color = "red";
+		document.getElementById("response").innerHTML = "Invalid Username";
+		return;
+	}
+	
   	
   	xhttp.onreadystatechange = function() {
     	if (this.readyState == 4 && this.status == 200) {
