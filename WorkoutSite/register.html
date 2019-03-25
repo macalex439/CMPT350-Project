@@ -5,9 +5,9 @@
 	<head>
 		<title> Register User </title>
 	
-		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css">
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
        	<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script> 
-       	<script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+       	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
  		<meta name="viewport" content="width=device-width, initial-scale=1">      	
        	
 		<script type="text/javascript" src="register.js"></script>
@@ -20,6 +20,9 @@
 				width: 300px;
 			}
 			#confirmpassword{
+				width: 300px;
+			}
+			.infield{
 				width: 300px;
 			}
 			#page {
@@ -43,20 +46,21 @@
 
 	<!div data-role="page" id="page" style="background-image: url('workout-1.jpg'); background-attachment: fixed; background-repeat: no-repeat; background-size: 100% 100%;"
     data-theme="a">
-	<div data-role = "page" id = "page" data-theme = "a">		
-	<div data-role = "header"> <h1> Create Your GymTracker Account </h1> </div>
+	<div data-role = "page" id = "page" data-theme = "d">		
+	<div data-role = "header" data-theme ="b"> <h1> Create Your GymTracker Account </h1> </div>
 	
 		<br></br><br></br><br></br>
 		
+		<div data-role="content" data-theme = "b">
 		<center><h2><font color = "black" required id = "response"> Create An Account </font></h2></center> 
 
-		<center><input id = "createuser" type = "text" required
+		<center><input data-wrapper-class="infield" id = "createuser" type = "text" required
 	              placeholder = "Create A User" > </input></center>
 	
-		<center><input id = "createpassword" type = "password" required
+		<center><input data-wrapper-class="infield" id = "createpassword" type = "password" required
 		   placeholder = "Create A Password" > </input></center>
 		   
-		<center><input id = "confirmpassword" type = "password" required
+		<center><input data-wrapper-class="infield" id = "confirmpassword" type = "password" required
 			placeholder = "Confirm Password"></input></center>
 	
 		<center><button id = "register" type = "button" onclick = "register()" 
