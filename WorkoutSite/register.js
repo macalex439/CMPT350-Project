@@ -17,6 +17,12 @@ function register(){
 	document.getElementById("createuser").value = '';
 	document.getElementById("createpassword").value = '';
 	document.getElementById("confirmpassword").value = '';
+
+	if (user.indexOf(' ') > 0){
+    	document.getElementById("response").color = "red";
+		document.getElementById("response").innerHTML = "Invalid Username";
+		return;
+	}	
 	
   	xhttp.onreadystatechange = function() {
     	if (this.readyState == 4 && this.status == 200) {
