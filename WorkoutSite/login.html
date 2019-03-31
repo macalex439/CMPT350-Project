@@ -6,19 +6,15 @@
 		<title> Workout Login </title>
 	
 		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+ 		<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/ui-darkness/jquery-ui.css">      
+       
        	<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script> 
        	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
- 		<meta name="viewport">      	
+       	<script src="http://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> 	  	
        	
 		<script type="text/javascript" src="login.js"></script>
 	
 		<style type="text/css">		
-			#inputuser {
-				width: 300px;
-			}
-			#inputpassword {
-				width: 300px;
-			}
 			.infield{
 				width: 300px;
 			}			
@@ -40,31 +36,30 @@
 	</head>
 	
 	<body>
-
-	<!div data-role="page" id="page" style="background-image: url('workout-1.jpg'); background-attachment: fixed; background-repeat: no-repeat; background-size: 100% 100%;"
-    data-theme="a">
+	
 	<div data-role = "page" id = "page" data-theme = "d">		
-	<div data-role = "header" data-theme = "b"> <h1>  Sign In To Your GymTracker Account </h1> </div>
+		<div data-role = "header" data-theme = "b"> <h1>  Sign In To Your GymTracker Account </h1> </div>
 	
-		<br></br><br></br><br></br>
+			<br></br><br></br><br></br>
 		
-		<div data-role="content" data-theme = "b" >
-		<center><h2><font color = "black" required id = "response"> Sign In To Your Account </font></h2></center> 
+			<div data-role="content" data-theme = "b" >
+				<center><h2><font color = "black" required id = "response"> 
+					Sign In To Your Account </font></h2></center> 
 
-		<center><input data-wrapper-class="infield" id = "inputuser" type = "text" required style="width:300px"
-	              placeholder = "Input User" > </input></center>
+				<center><input data-wrapper-class="infield" id = "inputuser" type = "text" required style="width:300px"
+	             	 placeholder = "Input User" data-clear-btn = "true" > </input></center>
 	
-		<center><input data-wrapper-class="infield" id = "inputpassword" type = "password" required data-inline = "true" style="width:300px"
-		   placeholder = "Input Password"></input></center>
+				<center><input data-wrapper-class="infield" id = "inputpassword" type = "password" required data-inline = "true" style="width:300px"
+		   			placeholder = "Input Password" data-clear-btn = "true" ></input></center>
 	
-		<center><button id = "checklogin" type = "button" onclick = "checkPassword()" 
-			data-inline="true">Sign In </button></center>
+				<center><button id = "checklogin" type = "button" onclick = "checkPassword()" 
+					data-inline="true">Sign In </button></center>
 			
-		<a href="register.html" rel="external" data-transition="fade"> 
-			<center> Click to Register </center> </a>
-		</div>
+				<a href="register.html" rel="external" data-transition="fade"> 
+					<center> Click to Register </center> </a>
+			</div>
 		
 		</div>
+	</div>	
 	</body>
-
 </html>
