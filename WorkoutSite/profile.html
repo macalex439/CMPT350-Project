@@ -6,20 +6,21 @@
 		<title> User Profile </title>
 	
 		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
-       	<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script> 
+		<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/ui-darkness/jquery-ui.css">
+       	
+       	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script> 
        	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+       	<script src="http://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
        	
- 		<meta name="viewport" content="width=device-width, initial-scale=1">      	
+  		<meta name="viewport" content="width=device-width, initial-scale=1">        	
        	
-		<script type="text/javascript" src="signOut.js"></script>
-	
-		<style type="text/css">		
-			#inputuser {
-				width: 300px;
-			}
-			#inputpassword {
-				width: 300px;
-			}
+		<script type="text/javascript" src="/signOut.js"></script>
+		
+		<script type="text/javascript" src="/profile.js"></script>
+		
+		<script type="text/javascript" src="/scrollMenu.js"></script>
+		
+		<style type="text/css">	
 			#page {
     		background: url('images/bg/workout-1.jpg');
     		background-repeat:no-repeat;
@@ -27,57 +28,144 @@
     		background-attachment:scroll;
     		background-size:100% 100%;
 			}
-/* 
-			.ui-page {
-   			 background: transparent;
-			}
-			.ui-content{
-    		background: transparent;
-			}
- */
+			div.profile-content{
+			background: url('images/bg/profile-1.jpg');
+			margin: 0 auto;	
+			width: 800px;
+			border-radius: 50px;
 			
+			}
+			div.scrollmenu {
+  			background-color: #333;
+  			overflow: auto;
+  			white-space: nowrap;
+			}
+
+			div.scrollmenu a {
+  			display: inline-block;
+  			color: white;
+  			text-align: center;
+  			padding: 14px;
+  			text-decoration: none;
+			}
+
+			div.scrollmenu a:hover {
+  			background-color: #777;
+			}
+			
+			div.link{
+			  background-color:none;
+  			  color:white;
+			}
+			
+			br {
+            display: block; /* makes it have a width */
+            content: ""; /* clears default height */
+            margin-top:7px; /* change this to whatever height you want it */
+			}
 		</style>
 	</head>
 	
-	<body>
+	<body onload="$.fn.loadProfile();$.fn.loadScrollMenu()">
+	<div data-role = "page" id="page" class="page" data-theme = "d">		
+		<div data-role = "header" data-theme="b"> 
+			<h1> Your GymTracker Profile </h1> 
+			
+			<a href="#left-panel" data-icon="bars" data-iconpos="notext" 
+				data-shadow="false" data-iconshadow="false">Menu</a>
+			
+			<a href="#add-workout" data-icon="plus" data-iconpos="notext"
+			data-shadow="false" data-iconshadow="false" 
+			onclick="parent.location ='/addworkout.html'; return false;">Add Workout</a>
+			
+			<div class="scrollmenu" id="scrolldate"></div>	
 
-	<!div data-role="page" id="page" style="background-image: url('images/bg/workout-1.jpg'); background-attachment: fixed; background-repeat: no-repeat; background-size: 100% 100%;"
-    data-theme="a">
-	<div data-role = "page" id="page" data-theme = "d">		
-	<div data-role = "header" data-theme="b"> 
-		<h1> Your GymTracker Profile </h1> 
-		<a href="#left-panel" data-icon="bars" data-iconpos="notext" 
-			data-shadow="false" data-iconshadow="false">Menu</a>
-
-	</div>
-	
-		<br></br><br></br><br></br>
-		<div data-role = "content" data-theme ="d">
-			<center><h2><font color = "black" required id = "response"> This is a profile page </font></h2></center> 
 		</div>
+	
+		<div data-role="content" data-theme = "d">
+			<br></br>
+			<div data-role = "content" data-theme ="b" class="profile-content">
+			<!div data-role="content" data-theme="b" style="background: url('images/bg/profile-1.jpg');margin: 0 auto;width: 800px;border-radius: 50px">
+				<h3><font required id = "response"> Profile </font></h3>
+			
+				<div class="ui-field-contain">
+					<label for="firstname">First Name:</label>
+					<input type="text" name ="firstname" id="firstname" placeholder="First Name" 
+					value = "" readonly required/>
+		
+					<label for="lastname">Last Name:</label>
+					<input type="text" name ="lastname" id="lastname" placeholder="Last Name" 
+					value = "" readonly required/>
+				
+					<label for="birthday">Date of Birth:</label>
+					<input type="datetime" name ="birthday" id="birthday" placeholder="YYYY/MM/DD" 
+					value = "" data-role="date" readonly required/>
+			
+					<label for="weight">Weight (kg):</label>
+					<input type="number" name="weight" id="weight" placeholder ="Log Your Weight"
+					value="" readonly required/>
+						
+					<label for="height">Height (cm):</label>
+					<input type="number" name="height" id="height" placeholder ="Log Your Height"
+					value="" readonly required/>
+				
+					<label for="squat">Squat PR (kg):</label>
+					<input type="text"name="squat" id="squat" placeholder="No Squat PR Recorded"
+					value ="" readonly/>
+				
+					<label for="bench">Benchpress PR (kg):</label>
+					<input type="text"name="bench" id="bench" placeholder="No Benchpress PR Recorded"
+					value ="" readonly/>	
+				
+					<label for="deadl">Deadlift PR (kg):</label>
+					<input type="text"name="deadl" id="deadl" placeholder="No Deadlift PR Recorded"
+					value ="" readonly/>		
+			
+				</div>
+			
+				<center><input type="button" value="Edit Profile" data-icon="edit" id="edit" class="edit-profile"/> 
+				<input type ="button" value = "Save" id="save" data-icon="save"data-inline="true" class = "save-profile"disabled /></center>	
+		
+			</div>
+		
+			<br></br>
+			<div data-role = "content" data-theme ="b" class="profile-content">
+				<h3>GymTracker Authentification</h3>
+			
+				<div class="ui-field-contain">
+					<label for="pw">Password:</label>
+					<input type="password" name="pw" id="pw" placeholder="Password"
+					value ="" />
+			
+					<label for="newpw">New Password:</label>
+					<input type="password" name="newpw" id="newpw" placeholder="New Password"
+					value ="" />
+				
+					<label for="confirmpw">Confirm Password:</label>
+					<input type="password" name="confirmpw" id="confirmpw" placeholder="Confirm Password"
+					value ="" />	
+				</div>
+				<center><input type="button" value="Change Password" class="change-pw" id="changepw"/></center>	
+			</div>
+		
+		</div>			
 		<div data-role="panel" id="left-panel" data-theme="b">
 			<ul data-role="listview" data-theme="b">
-				<li data-icon="delete"><a href="#" data-rel="external">Close</a></li>
+				<li data-icon="delete"><a href="#" data-rel="close">Close</a></li>
 				<li data-role="list-divider">Menu</li>
-				<li data-icon="home"><a href="/home.html" data-rel="external" data-transition = "slide">Home</a></li>
+				<li data-icon="home"><a href="/home.html" onclick="parent.location='/home.html'; return false;">Home</a></li>
 				<li data-icon="user"><a href="#" data-rel="close" >Profile</a></li>
-				<li><div data-role = "collapsible" data-inset="false" data-iconpos ="right" 
-					data-theme = "d" data-content-theme="d"><h3>Exercises</h3>
+				<li ><div data-role = "collapsible" data-inset="false" data-iconpos ="right" 
+					data-theme = "b" data-content-theme="b"><h3>Exercises</h3>
 					<ul data-role="listview">
-					<li data-icon="info"><a href="/squats.html" data-transition="pop" data-rel="external">Squats</a></li>
-					<li data-icon="info"><a href="/deadlift.html" data-transition="pop" data-rel="external">Deadlifts</a></li>
-					<li data-icon="info"><a href="/benchpress.html" data-transition="pop" data-rel="external">Bench Press</a></li>									
+					<li data-icon="info"><a href="/squats.html" onclick="parent.location='/squats.html'; return false;">Squats</a></li>
+					<li data-icon="info"><a href="/deadlift.html" onclick="parent.location='/deadlift.html'; return false;">Deadlifts</a></li>
+					<li data-icon="info"><a href="/benchpress.html"onclick="parent.location='/benchpress.html'; return false;">Bench Press</a></li>									
 					</ul>
-					</div></li>
-				
+					</div></li>		
 				<li data-icon="back"><a href="signOut.js" onclick="signOut();return false;">Sign Out</a><li>
-			</ul>
-			
+			</ul>		
 		</div>
-
-	
-
-		</div>
+	</div>
 	</body>
-
 </html>
