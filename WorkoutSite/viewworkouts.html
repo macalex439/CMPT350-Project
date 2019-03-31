@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+
+<html> 
+
+	<head>
+		<title> Workout Homepage </title>
+	
+		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+ 		<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/ui-darkness/jquery-ui.css">		
+		
+       	<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script> 
+       	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+       	<script src="http://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+             	
+ 		<meta name="viewport" content="width=device-width, initial-scale=1">      	
+       	
+		<script type="text/javascript" src="/signOut.js"></script>
+		
+		<script type="text/javascript" src="/scrollMenu.js"></script>
+	
+		<style type="text/css">		
+			#page {
+    		background: url('images/bg/workout-1.jpg');
+    		background-repeat:no-repeat;
+    		background-position:center center;
+    		background-attachment:scroll;
+    		background-size:100% 100%;
+			}
+			
+		    div.page-content{
+			background: url('images/bg/profile-1.jpg');
+			margin: 0 auto;	
+			width: 800px;
+			border-radius: 50px;
+			
+			}
+			
+			div.scrollmenu {
+  			background-color: #333;
+  			overflow: auto;
+  			white-space: nowrap;
+			}
+
+		    div.scrollmenu a {
+  			display: inline-block;
+  			color: white;
+  			text-align: center;
+  			padding: 14px;
+  			text-decoration: none;
+			}
+
+			div.scrollmenu a:hover {
+  			background-color: #777;
+  			overflow: auto;
+			}
+			
+			br {
+            display: block; /* makes it have a width */
+            content: ""; /* clears default height */
+            margin-top:7px; /* change this to whatever height you want it */
+			}
+			
+			div.link{
+			  background-color:none;
+  			  color:white;
+			}			
+			
+		</style>
+	</head>
+	
+	<body onload = "$.fn.loadScrollMenu()">
+	<div data-role = "page" id="page" class="page"data-theme = "d">		
+		<div data-role = "header" data-theme="b"> 
+			<h1>  Workout History </h1> 
+			<a href="#left-panel" data-icon="bars" data-iconpos="notext" 
+			data-shadow="false" data-iconshadow="false">Menu</a>
+	
+			<a href="#add-workout" data-icon="plus" data-iconpos="notext"
+			data-shadow="false" data-iconshadow="false" 
+			onclick="parent.location ='/addworkout.html'; return false;">Add Workout</a>			
+			
+			<div class="scrollmenu" id="scrolldate"></div>		
+		</div>
+	
+		<div data-role = "content" data-theme ="d">
+			<center><h2><font color = "black" required id = "response"> Workout History </font></h2></center> 
+		</div>
+		
+		<div data-role="panel" id="left-panel" data-theme="b">
+			<ul data-role="listview" data-theme="b">
+				<li data-icon="delete"><a href="#" data-rel="close">Close</a></li>
+				<li data-role="list-divider">Menu</li>
+				<li data-icon="home"><a href="/home.html" onclick="parent.location='/home.html'; return false;">Home</a></li>
+				<li data-icon="user"><a href="/profile.html" onclick="parent.location='/profile.html'; return false;">Profile</a></li>
+				<li><div data-role = "collapsible" data-inset="false" data-iconpos ="right" 
+					data-theme = "b" data-content-theme="b"><h3>Exercises<h3>
+					<ul data-role="listview">
+					<li data-icon="info"><a href="/squats.html" onclick="parent.location='/squats.html'; return false;">Squats</a></li>
+					<li data-icon="info"><a href="/deadlift.html" onclick="parent.location='/deadlift.html'; return false;">Deadlifts</a></li>
+					<li data-icon="info"><a href="/benchpress.html" onclick="parent.location='/benchpress.html'; return false;">Bench Press</a></li>										
+					</ul>
+					</div></li>
+				<li data-icon="back"><a href="signOut.js" onclick="signOut();return false;">Sign Out</a><li>	
+			</ul>
+		</div>
+	</div>
+	</body>
+</html>
