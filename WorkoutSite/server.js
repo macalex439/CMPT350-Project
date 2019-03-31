@@ -4,6 +4,7 @@ var url = require('url');
 var express = require('express');
 var bodyparser = require("body-parser");
 var DataBase = require('./DataBase.js');
+var user;
 
 var lock = true;
 var app = express();
@@ -30,6 +31,7 @@ app.post('/CheckPassword', function(req,res){
 	db.checkUserAuth(req.body.User, function(results){
 		if (results == req.body.Password){
 			lock = false;
+			user = req.body.User;
 			res.write("true");
 		}else {
 			res.write("false");
@@ -39,8 +41,60 @@ app.post('/CheckPassword', function(req,res){
 });
 
 app.post('/Register', function(req,res){
+	db.createProfile(req.body.User);
 	db.createUser(req.body.User, req.body.Password, function(results){
 		res.write(results);
+		return res.end();
+	});
+});
+
+app.put('/ChangePassword', function(req,res){
+	if (req.body.newpw == '' || req.body.pw == '' || req.body.confirmpw == ''){
+		res.write("You Cannot Leave Password Blank Fields");
+		return res.end();
+	} else if (req.body.newpw != req.body.confirmpw){
+		res.write("New Passwords Do Not Match.");
+		return res.end();
+	} else{
+	db.checkUserAuth(user, function(results){
+		if (results == req.body.pw){
+			db.changeUserPassword(user, req.body.newpw);
+			res.write("Successfully Changed Password.");
+		} else {
+			res.write("Incorrect Password. Try Again.");
+		}
+		return res.end();
+	});
+	}
+});
+
+app.put('/UpdateProfile', function(req,res){
+
+	var fname,lname,birthday,weight,height;
+	
+	if (req.body.fname == '') fname = '';
+	else fname = req.body.fname;
+
+	if (req.body.lname == '') lname = '';
+	else lname = req.body.lname;
+	
+	if (req.body.birthday == '') birthday = 'NULL';
+	else birthday = req.body.birthday;
+	
+	if (req.body.weight == '') weight = 'NULL';
+	else weight = req.body.weight;
+	
+	if (req.body.height == '') height = 'NULL';
+	else height = req.body.height;
+		
+	db.updateProfile(user,fname,lname,birthday,weight,height); 
+	return res.end();
+});
+
+app.get('/LoadProfile', function(req,res){
+	db.loadProfile(user, function(results){
+		if (results) res.write(JSON.stringify(results));
+		else res.write("what");
 		return res.end();
 	});
 });
@@ -156,9 +210,7 @@ app.post('/CreateMessage', function(req,res){
 
 //////HTML PAGES ///////
 
-// app.get('/login.js', function(req,res){
-// 	load(req,res);
-// });	
+app.get('/vieworkouts.html', 
 
 app.get('*',function(req,res){
 	load(req, res);
@@ -170,14 +222,6 @@ function load(req, res){
 
 	var query = url.parse(req.url, true);
 	var file = "." + query.pathname;
-	
-	//console.log(query);
-	
-// 	if (file == './login.html'){
-// 		console.log('trythis');
-// 		res.writeHead(301, {"Location": '/home.html'});
-// 		return res.end();
-// 	}
 	
 	if (lock && (file != './images/bg/workout-1.jpg' && file != './login.js' && file != './register.js' && file != './register.html' && file != './login.html')) file = './login.html';
 	
@@ -191,9 +235,7 @@ function load(req, res){
 				res.writeHead(404, {"Content-Type": "text/html"});
 				res.write(data1);
 				return res.end();
-			});// 
-// 			res.writeHead(404, {"Content-Type": "text/html"});
-// 			return res.end("404: Error, Page Not Found");
+			});
 		} else {
 		
 		res.writeHead(200, {"Content-Type": "text/html"});
