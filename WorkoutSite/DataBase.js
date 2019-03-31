@@ -50,6 +50,38 @@ class DataBase{
 			}
 		});
 	}
+	
+	createProfile(user){
+		var sql = "INSERT INTO  profiles (username) VALUES ('" + user + "')";
+		this.con.query(sql,function(err,results,field){
+			if(err) throw err;
+		});
+	}
+
+	updateProfile(user, fname, lname, birthday, weight, height){
+		var sql;
+		if (birthday == 'NULL') sql="UPDATE profiles SET fname='"+fname+"', lname='"+lname+"', birthday="+birthday+", weight="+weight+",height="+height+" WHERE username='"+user+"'";
+		else sql= "UPDATE profiles SET fname='"+fname+"', lname='"+lname+"', birthday='"+birthday+"', weight="+weight+",height="+height+" WHERE username='"+user+"'";
+		this.con.query(sql,function(err,results,field){
+			if(err) throw err;
+		}); 	
+	}	
+	
+	loadProfile(user, callback){
+		var sql = "SELECT * FROM profiles WHERE username='"+user+"'";
+		this.con.query(sql,function(err,results){
+			if (err) throw err;
+			return callback(results);
+		});
+	}
+	
+	changeUserPassword(user, pw){
+		var sql = "UPDATE logins SET password = '" + pw + "' WHERE username = '" + user + "'";
+		this.con.query(sql, function(err, results){
+			if (err) throw err;
+		});
+	}
+	
 	checkUserAuth(user, callback){
 		var sql = "SELECT password FROM logins WHERE username= '" + user + "'";
 		this.con.query(sql, function(err, results, fields){
@@ -62,6 +94,7 @@ class DataBase{
 			
 		});
 	}
+	
 	
 	createMessage(roomName, message, date){
 		var sql = "INSERT INTO " + roomName + " (message, time) VALUES ('" + message + "', '" + date + "')";
