@@ -25,7 +25,7 @@ http.createServer(function(req,res){
 
 /**************ROUTERS*******************/
 
-///////AJAX Responses ///////
+///////Password and New Account Handlers ///////
 
 app.post('/CheckPassword', function(req,res){
 	db.checkUserAuth(req.body.User, function(results){
@@ -41,8 +41,11 @@ app.post('/CheckPassword', function(req,res){
 });
 
 app.post('/Register', function(req,res){
-	db.createProfile(req.body.User);
 	db.createUser(req.body.User, req.body.Password, function(results){
+		if (results == 'true'){
+			db.createProfile(req.body.User);
+			db.createWorkoutLog(req.body.User);
+		}
 		res.write(results);
 		return res.end();
 	});
@@ -67,6 +70,14 @@ app.put('/ChangePassword', function(req,res){
 	});
 	}
 });
+
+app.get('/SignOut', function(req,res){
+	lock = true;
+	res.write("true");
+	return res.end();
+});
+
+//// Profile Handlers ///////////////
 
 app.put('/UpdateProfile', function(req,res){
 
@@ -99,118 +110,112 @@ app.get('/LoadProfile', function(req,res){
 	});
 });
 
-app.get('/SignOut', function(req,res){
-	lock = true;
-	res.write("true");
-	return res.end();
-});
-
-
-app.get('/HighFilter', function(req,res){
-	var chatRooms = '';
-	db.filterHighChatRooms(function(results){
-		for (var i = 0; i < results.length; i ++){
-			chatRooms += results[i];
-			if (i < results.length -1) chatRooms = chatRooms + '\n'
+////////////Workout Log ////////////////////
+app.get('/ViewWorkouts', function(req,res){
+	var datelog = (url.parse(req.url,true)).query.datelog
+	var workoutlog = '';	
+	db.selectWorkoutLog(user,datelog,function(results){
+		if (!results.length){
+			workoutlog += '<tr><th> No Workouts Logged </th></tr>';
+		} else {
+			for (var i = 0; i < results.length; i ++){
+				workoutlog+='<tr><th> Workout '+(i+1).toString()+' </th>';
+				workoutlog+='<td>'+parseInt(results[i].bweight,10)+'</td>';
+				workoutlog+='<td>'+parseInt(results[i].bsets,10)+'</td>';
+				workoutlog+='<td>'+parseInt(results[i].breps,10)+'</td>';
+				workoutlog+='<td>'+parseInt(results[i].dweight,10)+'</td>';
+				workoutlog+='<td>'+parseInt(results[i].dsets,10)+'</td>';
+				workoutlog+='<td>'+parseInt(results[i].dreps,10)+'</td>';
+				workoutlog+='<td>'+parseInt(results[i].sweight,10)+'</td>';
+				workoutlog+='<td>'+parseInt(results[i].ssets,10)+'</td>';
+				workoutlog+='<td>'+parseInt(results[i].sreps,10)+'</td>';
+				workoutlog+='<td>'+(parseInt(results[i].bweight,10)+parseInt(results[i].sweight,10)+parseInt(results[i].dweight,10))+'</td></tr>';
+			}
 		}
-		res.write(chatRooms);
+		res.write(workoutlog);
 		return res.end();
 	});
 });
 
-app.get('/LoadChatRooms', function(req,res){
-	var chatRooms = '';
-	db.showAllChatRooms(function(results){
-		for (var i = 0; i < results.length; i ++){
-			chatRooms += results[i];
-			if (i < results.length -1) chatRooms = chatRooms + '\n'
-		}
-		res.write(chatRooms);
-		return res.end();
-	});
-});
-
-app.get('/LowFilter', function(req,res){
-	var chatRooms = '';
-	db.filterLowChatRooms(function(results){
-		for (var i = 0; i < results.length; i ++){
-			chatRooms += results[i];
-			if (i < results.length -1) chatRooms = chatRooms + '\n'
-		}
-		res.write(chatRooms);
-		return res.end();
-	});
-});
-
-
-app.get('/LoadDropDownMenu', function(req,res){
-	var chatRooms = '<option value = "" disabled selected> Please Select a Message Board </option>';
-		db.showAllChatRooms(function(results){
-		
-		for (var i = 0; i < results.length; i ++){
-			chatRooms += '<option value="' + results[i] + '">' + results[i] + '</option>'
-		}
-		res.write(chatRooms);
-		return res.end();
-	});
-});
-
-app.post('/CreateChatRoom', function(req, res){
-	db.createChatRoom(req.body.NewChatRoom);
-	var chatRooms = '';
-	db.showAllChatRooms(function(results){
-		for (var i = 0; i < results.length; i ++){
-			chatRooms += results[i];
-			if (i < results.length -1) chatRooms += '\n'
-		}
-		res.write(chatRooms);
-		return res.end();
-	});
-});
-
-app.delete('/DeleteChatRoom', function (req, res){
-	db.deleteChatRoom(req.body.ChatRoom);
-	var chatRooms = '<option value = "" disabled selected> Please Select a Message Board </option>';
-	db.showAllChatRooms(function(results){
-		for (var i = 0; i < results.length; i ++){
-			chatRooms += '<option value="' + results[i] + '">' + results[i] + '</option>'
-		}
-		res.write(chatRooms);
-		return res.end();
-	});
-});
-
-app.get('/ShowAllMessages', function(req,res){
-	var Url = url.parse(req.url, true);
-	var query = Url.query;
-	var messages = '';
+app.post('/LogWorkout', function(req,res){
+	var date,bweight,bsets,breps,dweight,dsets,dreps,sweight,ssets,sreps;
+	date = req.body.date;
 	
-	db.showAllMessages(query.ChatRoom, function(results){
-		for (var i = 0; i < results.length; i ++){
-			messages += results[i].time.toISOString().slice(0, 19).replace('T', ' ') + ": \n \t" + results[i].message + '\n\n';
-		}
-		res.write(messages);
+	if (req.body.bweight == '') bweight = 'NULL';
+	else bweight = req.body.bweight;
+	
+	if (req.body.bsets == '') bsets = 'NULL';
+	else bsets = req.body.bsets;
+	
+	if (req.body.breps == '') breps = 'NULL';
+	else breps = req.body.breps;
+
+	if (req.body.dweight == '') dweight = 'NULL';
+	else dweight = req.body.dweight;
+	
+	if (req.body.dsets == '') dsets = 'NULL';
+	else dsets = req.body.dsets;
+	
+	if (req.body.dreps == '') dreps = 'NULL';
+	else dreps = req.body.dreps;
+
+	if (req.body.sweight == '') sweight = 'NULL';
+	else sweight = req.body.sweight;
+	
+	if (req.body.ssets == '') ssets = 'NULL';
+	else ssets = req.body.ssets;
+	
+	if (req.body.sreps == '') sreps = 'NULL';
+	else sreps = req.body.sreps;		
+	if (date == ''){
+		console.log('date error');
+		res.write("You Must Select A Date");
 		return res.end();
-	});
+	} else if (bweight == 'NULL' && bsets == 'NULL' && breps == 'NULL' && dweight == 'NULL' && dsets == 'NULL' && dreps == 'NULL' && sweight == 'NULL' && ssets == 'NULL' && sreps == 'NULL'){
+		console.log("Can't Log An Empty Workout");
+		res.write("Can't Log An Empty Workout");
+		return res.end();
+	} else if((bweight == 'NULL' || bsets == 'NULL' || breps == 'NULL') && !(bweight == 'NULL' && bsets == 'NULL' && breps == 'NULL')){
+		console.log('bench error');
+		res.write("You Are Missing Fields In Recording Benchpress");
+		return res.end();
+	} else if((dweight == 'NULL' || dsets == 'NULL' || dreps == 'NULL') && !(dweight == 'NULL' && dsets == 'NULL' && dreps == 'NULL')){
+		res.write("You Are Missing Fields In Recording Deadlifts");
+		return res.end();
+	} else if ((sweight == 'NULL' || ssets == 'NULL' || sreps == 'NULL') && !(sweight == 'NULL' && ssets == 'NULL' && sreps == 'NULL')){
+		res.write("You Are Missing Fields In Recording Squats");
+		return res.end();
+	} else {
+		db.createWorkout(user,date,bweight,bsets,breps,dweight,dsets,dreps,sweight,ssets,sreps,function(results){
+			if (results == 'true'){
+				db.updateBenchPR(user, function(results1){});
+				db.updateSquatPR(user, function(results2){});
+				db.updateDeadPR(user, function(results3){});	
+				res.write("Successfully Logged A Workout");
+			} 
+			else{ 
+				res.write("Ooops! Could Not Log Workout");
+			}
+		
+			return res.end();
+		});
+	}
 });
 
-app.post('/CreateMessage', function(req,res){
-	var bod = req.body;
-	var messages = '';
-	db.createMessage(bod.ChatRoom, bod.Message, bod.Time);
-	db.showAllMessages(bod.ChatRoom, function(results){
-		for (var i = 0; i < results.length; i ++){
-			messages += results[i].time.toISOString().slice(0, 19).replace('T', ' ') + ": \n \t" + results[i].message + '\n\n';
+app.delete('/DeleteWorkoutLog', function(req,res){
+	db.deleteWorkoutLog(user, req.body.datelog, function(results){
+		if (results == 'true'){
+			res.write('Workout Log Cleared');
+		} else{
+			res.write('Oops! Could Not Delete Workout');
 		}
-		res.write(messages);
 		return res.end();
 	});
+	
 });
 
 
 //////HTML PAGES ///////
-
-app.get('/vieworkouts.html', 
 
 app.get('*',function(req,res){
 	load(req, res);
