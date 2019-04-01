@@ -3,12 +3,12 @@
 <html> 
 
 	<head>
-		<title> Workout Homepage </title>
+		<title> New Workout </title>
 	
 		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
  		<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/ui-darkness/jquery-ui.css">		
 		
-       	<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script> 
+       	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script> 
        	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
        	<script src="http://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
              	
@@ -17,6 +17,8 @@
 		<script type="text/javascript" src="/signOut.js"></script>
 		
 		<script type="text/javascript" src="/scrollMenu.js"></script>
+		
+		<script type="text/javascript" src="/addworkout.js"></script>
 	
 		<style type="text/css">		
 			#page {
@@ -29,12 +31,12 @@
 			
 		    div.page-content{
 			background: url('images/bg/profile-1.jpg');
-			margin: 0 auto;	
-			width: 800px;
+			margin: 50px auto;	
+			width: 500px;
 			border-radius: 50px;
-			
 			}
 			
+
 			div.scrollmenu {
   			background-color: #333;
   			overflow: auto;
@@ -63,7 +65,10 @@
 			div.link{
 			  background-color:none;
   			  color:white;
-			}			
+			}
+			.infield{
+			 width:125px;
+			}		
 			
 		</style>
 	</head>
@@ -71,11 +76,11 @@
 	<body onload = "$.fn.loadScrollMenu()">
 	<div data-role = "page" id="page" class="page"data-theme = "d">		
 		<div data-role = "header" data-theme="b"> 
-			<h1>  Add a Workout </h1> 
+			<h1> GymTrack A New Workout </h1> 
 			<a href="#left-panel" data-icon="bars" data-iconpos="notext" 
 			data-shadow="false" data-iconshadow="false">Menu</a>
 			
-			<a href="#add-work" data-icon="plus" data-iconpos="notext"
+			<a href="#add-work" data-icon="plus" data-iconpos="right"
 			data-shadow="false" data-iconshadow="false">Add Workout</a>				
 			
 			<div class="scrollmenu" id="scrolldate"></div>	
@@ -83,14 +88,74 @@
 		</div>
 	
 		<div data-role = "content" data-theme ="d">
-			<center><h2><font color = "black" required id = "response"> This is Add Workout page </font></h2></center> 
+			<br></br>
+			<div id="workoutpanel" data-role ="content" data-theme="b"class="page-content">
+				<form> <ul data-role='listview' data-inset='true'>
+				<h3><font required > GymTracker Log </font></h3>
+				<li class="ui-field-contain" style="background:transparent">
+					<label for="date">Date:</label>
+					<input type="datetime" name ="date" id="date" placeholder="YYYY/MM/DD" 
+					value = "" data-role="date" data-clear-btn="true"readonly required />
+				</li>	
+			
+				<li class="ui-field-contain"style="background:transparent" >
+					<center>Benchpress</center>
+				</li>
+				<li class="ui-field-contain"style="background:transparent">
+					<div data-role="navbar" data-type="horizontal">	
+					<ul>
+					<li><input type="number" data-wrapper-class="infield" name="bweight" id="bweight" placeholder ="Weight (kg)"
+					value="" data-mini="true"/></li>
+					<li><input type="number" data-wrapper-class="infield"name="bsets" id="bsets" placeholder ="Number of Sets"
+					value=""  data-mini="true"/></li>
+					<li><input type="number" data-wrapper-class="infield"name="breps" id="breps" placeholder ="Repetitions"
+					value="" data-mini="true"/></li>
+					</ul>
+					</div>
+				</li>		
+				<li class="ui-field-contain"style="background:transparent" >
+					<center>Deadlift</center>
+				</li>
+				<li class="ui-field-contain"style="background:transparent">
+					<div data-role="navbar" data-type="horizontal">	
+					<ul>
+					<li><input type="number" data-wrapper-class="infield" name="dweight" id="dweight" placeholder ="Weight (kg)"
+					value="" data-mini="true"/></li>
+					<li><input type="number" data-wrapper-class="infield"name="dsets" id="dsets" placeholder ="Number of Sets"
+					value=""  data-mini="true"/></li>
+					<li><input type="number" data-wrapper-class="infield"name="dreps" id="dreps" placeholder ="Repetitions"
+					value="" data-mini="true"/></li>
+					</ul>
+					</div>
+				</li>		
+				
+				<li class="ui-field-contain"style="background:transparent" >
+					<center>Squat</center>
+				</li>
+				<li class="ui-field-contain"style="background:transparent">
+					<div data-role="navbar" data-type="horizontal">	<ul>
+					<li><input type="number" data-wrapper-class="infield" name="sweight" id="sweight" placeholder ="Weight (kg)"
+					value="" data-mini="true"/></li>
+					<li><input type="number" data-wrapper-class="infield"name="ssets" id="ssets" placeholder ="Number of Sets"
+					value=""  data-mini="true"/></li>
+					<li><input type="number" data-wrapper-class="infield"name="sreps" id="sreps" placeholder ="Repetitions"
+					value="" data-mini="true"/></li>
+					</ul></div>
+				</li>	
+				
+				<center><div style="float:right"class="ui-input-btn ui-btn ui-icon-plus ui-btn-icon-notext ui-corner-all">
+					<input type="button" value="" onclick="$.fn.logWorkout();return false;">
+				</div></center>
+				</ul></form>
+			</div>		
+	
 		</div>
 		
 		<div data-role="panel" id="left-panel" data-theme="b">
 			<ul data-role="listview" data-theme="b">
 				<li data-icon="delete"><a href="#" data-rel="close">Close</a></li>
 				<li data-role="list-divider">Menu</li>
-				<li data-icon="home"><a href="/home.html" data-rel="close">Home</a></li>
+				<li data-icon="home"><a href="/home.html" onclick="parent.location='/home.html'; return false;">Home</a></li>
 				<li data-icon="user"><a href="/profile.html" onclick="parent.location='/profile.html'; return false;">Profile</a></li>
 				<li><div data-role = "collapsible" data-inset="false" data-iconpos ="right" 
 					data-theme = "b" data-content-theme="b"><h3>Exercises<h3>
