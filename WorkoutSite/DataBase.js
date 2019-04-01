@@ -1,5 +1,6 @@
 class DataBase{
 
+	//database constructor
 	constructor(h, u, pw, db){
 		this.mysql = require('mysql');
 		
@@ -19,10 +20,12 @@ class DataBase{
 	
 	}
 	
+	//Disconnecter
 	disconnect(){
 		this.con.end();
 	}
 	
+	//Reconnecter
 	reconnect(h,u,pw,db){
 		this.con = this.mysql.createConnection({
 	
@@ -39,6 +42,7 @@ class DataBase{
 	
 	}
 	
+	//Create new user.
 	createUser(user, pw, callback){
 		var sql = "INSERT INTO logins (username, password) VALUES ('" + user + "', '" + pw + "')";
 		this.con.query(sql, function(err, results, fields){
@@ -57,6 +61,7 @@ class DataBase{
 			if(err) throw err;
 		});
 	}
+	
 
 	updateProfile(user, fname, lname, birthday, weight, height){
 		var sql;
@@ -66,6 +71,7 @@ class DataBase{
 			if(err) throw err;
 		}); 	
 	}	
+	
 	
 	loadProfile(user, callback){
 		var sql = "SELECT * FROM profiles WHERE username='"+user+"'";
@@ -95,42 +101,81 @@ class DataBase{
 		});
 	}
 	
-	
-	createMessage(roomName, message, date){
-		var sql = "INSERT INTO " + roomName + " (message, time) VALUES ('" + message + "', '" + date + "')";
-		this.con.query(sql, function(err, results, fields){
+	createWorkoutLog(user){
+		var sql = "CREATE TABLE "+user+"_WorkoutLogs (datelog DATE, bweight FLOAT, bsets INT, breps INT, dweight FLOAT, dsets INT, dreps INT, sweight FLOAT, ssets INT, sreps INT)";
+		this.con.query(sql,function(err,results){
 			if (err) throw err;
-		});
-		sql = "UPDATE Chatrooms SET activity = (SELECT count(*) FROM " + roomName + ") WHERE roomname = '" + roomName + "'";
-		this.con.query(sql, function(err, results){
-			if (err) throw err;
-		});
+		}); 
 	}
 	
-	showAllMessages(roomName, callback){
-		var sql = "SELECT * FROM " + roomName + " ORDER BY time ASC";
-		this.con.query(sql, function(err, results, fields){
-			if (err) throw err;
-			
-			var chatRooms = [];
-			for (var i = 0; i < results.length; i++){
-				chatRooms.push(results[i]);
+	createWorkout(user, date, bweight, bsets, breps, dweight, dsets, dreps, sweight, ssets, sreps, callback){
+		var sql;
+		if (date == "NULL") sql= "INSERT INTO "+user+"_WorkoutLogs (datelog, bweight, bsets, breps, dweight, dsets, dreps, sweight, ssets, sreps) VALUES ("+date+","+bweight+","+bsets+","+breps+","+dweight+","+dsets+","+dreps+","+sweight+","+ssets+","+sreps+")";
+		else sql="INSERT INTO "+user+"_WorkoutLogs (datelog, bweight, bsets, breps, dweight, dsets, dreps, sweight, ssets, sreps) VALUES ('"+date+"',"+bweight+","+bsets+","+breps+","+dweight+","+dsets+","+dreps+","+sweight+","+ssets+","+sreps+")";
+		this.con.query(sql,function(err,results){
+			if (err){
+				return callback('false');
+			} else {
+				return callback('true');
 			}
-			return callback(chatRooms);
 		});
 	}
 	
-	createChatRoom(roomName){
-		var sql = "CREATE TABLE " + roomName + " (message VARCHAR(255), time DATETIME)";
-		this.con.query(sql, function(err,results, fields){
-			if (err) throw err;
-			console.log("Table Created");
+	updateBenchPR(user, callback){
+		var sql="UPDATE profiles SET bench = (SELECT max(bweight) from "+user+"_WorkoutLogs) where username = '"+user+"'";
+		this.con.query(sql, function(err,results){
+			if (err){
+				throw err;
+			}else{
+				return callback('true');
+			}
 		});
-		
-		sql = "INSERT INTO Chatrooms (roomname, activity) VALUES ('" + roomName + "', 0)";
-		this.con.query(sql, function(err, results){
-			if (err) throw err;
+	}
+	
+	updateSquatPR(user,callback){
+		var sql="UPDATE profiles SET squat = (SELECT max(sweight) from "+user+"_WorkoutLogs) where username = '"+user+"'";
+		this.con.query(sql, function(err,results){
+			if (err){
+				throw err;
+			}else{
+				return callback('true');
+			}
 		});
+	}
+	
+	updateDeadPR(user,callback){
+		var sql="UPDATE profiles SET dead = (SELECT max(dweight) from "+user+"_WorkoutLogs) where username = '"+user+"'";
+		this.con.query(sql, function(err,results){
+			if (err){
+				throw err;
+			}else{
+				return callback('true');
+			}
+		});
+	}
+	
+	selectWorkoutLog(user,date,callback){
+		var sql="SELECT * FROM "+user+"_WorkoutLogs WHERE datelog='"+date+"'";
+		this.con.query(sql,function(err,results){
+			return callback(results);
+		});
+	}
+	
+	deleteWorkoutLog(user,date,callback){
+		var sql="DELETE FROM "+user+"_WorkoutLogs WHERE datelog='"+date+"'";
+		this.con.query(sql, function(err,results){
+			if (err) return callback('false');
+			return callback('true');
+		});
+	}
+	
+	deleteLogin(user){
+		var sql = "DELETE FROM logins WHERE username = '"+user+"'"; 
+	
+	}
+	
+	deleteProfile(user){
+		var sql = "DELETE FROM profiles WHERE username = '"+user+"'";
 	}
 	
 	deleteChatRoom(roomName){
@@ -146,47 +191,8 @@ class DataBase{
 		this.con.query(sql,function(err, results){
 			if (err) throw err;
 		});
-	}
-		
-	
-	showAllChatRooms(callback){
-		var sql = "SELECT roomname FROM Chatrooms ORDER BY roomname";
-		this.con.query(sql, function(err,results, fields){
-			if (err) throw err;
-			
-			var chatRooms = [];
-			for (var i = 0; i < results.length; i ++){
-				chatRooms.push(results[i].roomname);
-			}
-			return callback(chatRooms);
-		});
-	}
-	
-	filterLowChatRooms(callback){
-		var sql = "SELECT roomname FROM Chatrooms ORDER BY activity ASC";
-		this.con.query(sql, function(err,results, fields){
-			if (err) throw err;
-			
-			var chatRooms = [];
-			for (var i = 0; i < results.length; i ++){
-				chatRooms.push(results[i].roomname);
-			}
-			return callback(chatRooms);
-		});
-	}
-	
-	filterHighChatRooms(callback){
-		var sql = "SELECT roomname FROM Chatrooms ORDER BY activity DESC";
-		this.con.query(sql, function(err,results, fields){
-			if (err) throw err;
-			
-			var chatRooms = [];
-			for (var i = 0; i < results.length; i ++){
-				chatRooms.push(results[i].roomname);
-			}
-			return callback(chatRooms);
-		});
-	}
+	}	
+
 }
 
 module.exports = DataBase
