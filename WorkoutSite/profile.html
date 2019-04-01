@@ -30,8 +30,8 @@
 			}
 			div.profile-content{
 			background: url('images/bg/profile-1.jpg');
-			margin: 0 auto;	
-			width: 800px;
+			margin: 50px auto;	
+			width: 725px;
 			border-radius: 50px;
 			
 			}
@@ -58,6 +58,10 @@
   			  color:white;
 			}
 			
+			.infield{
+				width: 300px;
+			}
+			
 			br {
             display: block; /* makes it have a width */
             content: ""; /* clears default height */
@@ -74,7 +78,7 @@
 			<a href="#left-panel" data-icon="bars" data-iconpos="notext" 
 				data-shadow="false" data-iconshadow="false">Menu</a>
 			
-			<a href="#add-workout" data-icon="plus" data-iconpos="notext"
+			<a href="#add-workout" data-icon="plus" data-iconpos="right"
 			data-shadow="false" data-iconshadow="false" 
 			onclick="parent.location ='/addworkout.html'; return false;">Add Workout</a>
 			
@@ -82,73 +86,80 @@
 
 		</div>
 	
-		<div data-role="content" data-theme = "d">
+		<div data-role="content" data-theme = "d" id="page-content">
 			<br></br>
 			<div data-role = "content" data-theme ="b" class="profile-content">
-			<!div data-role="content" data-theme="b" style="background: url('images/bg/profile-1.jpg');margin: 0 auto;width: 800px;border-radius: 50px">
-				<h3><font required id = "response"> Profile </font></h3>
+				<h3><font id = "response"> Profile </font></h3>
+				<form> <ul data-role='listview' data-inset='true'>
 			
-				<div class="ui-field-contain">
+				<li class="ui-field-contain" style="background:transparent">
 					<label for="firstname">First Name:</label>
 					<input type="text" name ="firstname" id="firstname" placeholder="First Name" 
-					value = "" readonly required/>
-		
+					value = "" readonly data-mini="true"/>
+				</li>	
+				<li class="ui-field-contain" style="background:transparent">
 					<label for="lastname">Last Name:</label>
-					<input type="text" name ="lastname" id="lastname" placeholder="Last Name" 
-					value = "" readonly required/>
-				
+					<input data-wrapper-class="infield"type="text" name ="lastname" id="lastname" placeholder="Last Name" 
+					value = "" readonly data-mini="true"/>
+				</li>	
+				<li class="ui-field-contain" style="background:transparent">
 					<label for="birthday">Date of Birth:</label>
 					<input type="datetime" name ="birthday" id="birthday" placeholder="YYYY/MM/DD" 
-					value = "" data-role="date" readonly required/>
-			
+					value = "" data-role="date" readonly data-mini="true"/>
+				</li>
+				<li class="ui-field-contain" style="background:transparent">
 					<label for="weight">Weight (kg):</label>
 					<input type="number" name="weight" id="weight" placeholder ="Log Your Weight"
-					value="" readonly required/>
-						
+					value="" readonly data-mini="true"/>
+				</li>	
+				<li class="ui-field-contain" style="background:transparent">		
 					<label for="height">Height (cm):</label>
 					<input type="number" name="height" id="height" placeholder ="Log Your Height"
-					value="" readonly required/>
-				
+					value="" readonly data-mini="true"/>
+				</li>	
+				<li class="ui-field-contain" style="background:transparent">
 					<label for="squat">Squat PR (kg):</label>
 					<input type="text"name="squat" id="squat" placeholder="No Squat PR Recorded"
-					value ="" readonly/>
-				
+					value ="" readonly data-mini="true"/>
+				</li>	
+				<li class="ui-field-contain" style="background:transparent">
 					<label for="bench">Benchpress PR (kg):</label>
 					<input type="text"name="bench" id="bench" placeholder="No Benchpress PR Recorded"
-					value ="" readonly/>	
-				
+					value ="" readonly data-mini="true"/>	
+				</li>
+				<li class="ui-field-contain" style="background:transparent">
 					<label for="deadl">Deadlift PR (kg):</label>
 					<input type="text"name="deadl" id="deadl" placeholder="No Deadlift PR Recorded"
-					value ="" readonly/>		
-			
-				</div>
-			
-				<center><input type="button" value="Edit Profile" data-icon="edit" id="edit" class="edit-profile"/> 
-				<input type ="button" value = "Save" id="save" data-icon="save"data-inline="true" class = "save-profile"disabled /></center>	
-		
+					value ="" readonly data-mini="true"/>	
+				</li></ul></form>		
+				<center><input type="button"value="Edit Profile" id="edit" class="edit-profile ui-icon-btn ui-btn"/> 
+				<input type ="button" value = "Save" id="save" data-inline="true" class = "save-profile ui-icon-btn ui-btn"disabled /></center>	
+				
 			</div>
 		
 			<br></br>
 			<div data-role = "content" data-theme ="b" class="profile-content">
 				<h3>GymTracker Authentification</h3>
-			
-				<div class="ui-field-contain">
+				<form> <ul data-role='listview' data-inset='true'>
+				<li class="ui-field-contain" style="background:transparent">
 					<label for="pw">Password:</label>
 					<input type="password" name="pw" id="pw" placeholder="Password"
-					value ="" />
-			
+					value ="" data-mini="true" />
+				</li>	
+				<li class="ui-field-contain" style="background:transparent">
 					<label for="newpw">New Password:</label>
 					<input type="password" name="newpw" id="newpw" placeholder="New Password"
-					value ="" />
-				
+					value ="" data-mini="true"/>
+				</li>
+				<li class="ui-field-contain" style="background:transparent">
 					<label for="confirmpw">Confirm Password:</label>
 					<input type="password" name="confirmpw" id="confirmpw" placeholder="Confirm Password"
-					value ="" />	
-				</div>
-				<center><input type="button" value="Change Password" class="change-pw" id="changepw"/></center>	
+					value ="" data-mini="true"/>	
+				</li></ul></form> 
+				<center><input type="button" value="Change Password" class="change-pw ui-icon-btn ui-btn" id="changepw"/></center>	
 			</div>
-		
-		</div>			
+		</div>	
+				
 		<div data-role="panel" id="left-panel" data-theme="b">
 			<ul data-role="listview" data-theme="b">
 				<li data-icon="delete"><a href="#" data-rel="close">Close</a></li>
