@@ -26,12 +26,12 @@
     		background-attachment:scroll;
     		background-size:100% 100%;
 			}
-			#profile-content{
-			background: url('images/bg/profile-1.jpg');
-			margin: 0 auto;	
-			width: 800px;
-			border-radius: 50px;
 			
+			.page-content{
+			background: url('images/bg/profile-1.jpg');
+			margin: 80px auto;	
+			width: 600px;
+			border-radius: 50px;	
 			}
 			
 			div.scrollmenu {
@@ -74,22 +74,26 @@
 			<a href="#left-panel" data-icon="bars" data-iconpos="notext" 
 				data-shadow="false" data-iconshadow="false">Menu</a>
 				
-			<a href="#add-workout" data-icon="plus" data-iconpos="notext"
+			<a href="#add-workout" data-icon="plus" data-iconpos="right"
 			data-shadow="false" data-iconshadow="false" 
 			onclick="parent.location ='/addworkout.html'; return false;">Add Workout</a>
 				
 			<div class="scrollmenu" id="scrolldate"></div>		
-
 		</div>
 		
 		<div data-role = "content" data-theme ="d">
-			<div class = "iframe-container">
-				<p align = "center" >
-				<iframe width="560" height="315" src="https://www.youtube.com/embed/nEQQle9-0NA"
-				frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-				</p>
+			<div data-role='content' data-theme='b' class='page-content'>
+				<div class='ui-field-contain'>
+					<div class = "iframe-container">
+						<p align = "center"> 
+							<iframe width="560" height="315" src="https://www.youtube.com/embed/nEQQle9-0NA"
+							frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+						</p>
+					</div>
+				</div>
 			</div>
-		</div>
+		</div>		
+				
 		
 		<div data-role="panel" id="left-panel" data-theme="b">
 			<ul data-role="listview" data-theme="b">
