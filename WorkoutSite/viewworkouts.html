@@ -3,20 +3,22 @@
 <html> 
 
 	<head>
-		<title> Workout Homepage </title>
+		<title> Workout History</title>
 	
 		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
- 		<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/ui-darkness/jquery-ui.css">		
-		
-       	<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script> 
+		<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/ui-darkness/jquery-ui.css">
+       	
+       	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script> 
        	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
        	<script src="http://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-             	
+       	
  		<meta name="viewport" content="width=device-width, initial-scale=1">      	
        	
 		<script type="text/javascript" src="/signOut.js"></script>
 		
-		<script type="text/javascript" src="/scrollMenu.js"></script>
+		<script type="text/javascript" src="/workoutScrollMenu.js"></script>
+		
+		<script type="text/javascript" src="/viewworkouts.js"></script>
 	
 		<style type="text/css">		
 			#page {
@@ -29,10 +31,16 @@
 			
 		    div.page-content{
 			background: url('images/bg/profile-1.jpg');
-			margin: 0 auto;	
+			margin: 80px auto;	
 			width: 800px;
 			border-radius: 50px;
+			}
 			
+			div.popup-content{
+			background: url('images/bg/popup-1.jpg');
+			margin: 80px auto;
+			width: 500px;
+			border-radius: 50 px;
 			}
 			
 			div.scrollmenu {
@@ -63,7 +71,17 @@
 			div.link{
 			  background-color:none;
   			  color:white;
-			}			
+			}	
+			
+			.financial-table-reflow-table-stroke{
+			background: url('images/bg/profile-1.jpg');
+			margin: 80px auto;	
+			width: 1000px;
+			height: 250px;
+			border-radius: 50px;
+			color: white;
+			text-align: center;
+			}		
 			
 		</style>
 	</head>
@@ -71,11 +89,11 @@
 	<body onload = "$.fn.loadScrollMenu()">
 	<div data-role = "page" id="page" class="page"data-theme = "d">		
 		<div data-role = "header" data-theme="b"> 
-			<h1>  Workout History </h1> 
+			<h1> GymTracker Workout History </h1> 
 			<a href="#left-panel" data-icon="bars" data-iconpos="notext" 
 			data-shadow="false" data-iconshadow="false">Menu</a>
 	
-			<a href="#add-workout" data-icon="plus" data-iconpos="notext"
+			<a href="#add-workout" data-icon="plus" data-iconpos="right"
 			data-shadow="false" data-iconshadow="false" 
 			onclick="parent.location ='/addworkout.html'; return false;">Add Workout</a>			
 			
@@ -83,7 +101,55 @@
 		</div>
 	
 		<div data-role = "content" data-theme ="d">
-			<center><h2><font color = "black" required id = "response"> Workout History </font></h2></center> 
+			<table data-role="table" id="financial-table-reflow" data-mode="reflow" 
+			class="ui-responsive financial-table-reflow-table-stroke" data-theme ="b">
+				<thead> 
+					<tr class="th-groups">
+						<th><h3><font color = "white" required id = "response"> Workout History </font></h3></th>
+						<th colspan="3">Benchpress</th>
+						<th colspan="3">Deadlifts</th>
+						<th colspan="3">Squats</th>
+						<th colspan="1" class="totals">Totals  </th>
+					</tr>
+					<tr>
+						<th> Workouts </th>
+						<th> Weight(kg)</th>
+						<th> Sets </th>
+						<th> Reps </th>
+						<th> Weight(kg)</th>
+						<th> Sets </th>
+						<th> Reps </th>
+						<th> Weigh(kg)</th>
+						<th> Sets </th>
+						<th> Reps </th>
+						<th> Weight(kg)</th>												
+					</tr>
+				</thead>
+				
+				<a href="#deletelog" style="float:right"data-rel="popup" data-poisition-to="window" data-transition="pop"
+				class="ui-btn ui-input-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-delete ui-iconpos-right
+				ui-btn-b">Delete Workout Log</a>
+				
+				<div data-role="popup" id="deletelog" data-theme='a' data-dismissible='false'
+					class = "popup-content">
+					<div data-role = "header" data-theme='d'> <h1>Delete Workout?</h1> </div>
+					
+					<div role="main" class="ui-content"><center>
+						<h3 class="ui-title"> Are You Sure You Want To Delete This Log? </h3>
+						<p> This Action Cannot Be Undone </p>
+						<a href='#' class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel='back'>
+						Cancel </a>
+						<a href='#' onclick="$.fn.deleteWorkoutLog()"class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b" data-rel='back'data-transition='flow'>
+						Delete </a>	</center>	
+					</div>
+				</div>					
+						
+				<tbody id='tablebody'></tbody>	
+				
+			</table></center>
+			
+					
+			
 		</div>
 		
 		<div data-role="panel" id="left-panel" data-theme="b">
