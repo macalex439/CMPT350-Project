@@ -1,9 +1,5 @@
 $(document).ready(function(){
 
-	$(".view-workouts").click(function(){
-		alert("okay");
-	});
-
 	$.fn.loadScrollMenu = function(){
 		
 		var scrollDates = "";
@@ -40,14 +36,19 @@ $(document).ready(function(){
 		for (var i = startMonth; i<= endMonth; i ++){
 			if (i == (month -1)){
 				for (var j=startDay; j<= daysInPrevMonth; j++){
-					scrollDates +="<a href='/viewworkouts.html' onclick='parent.location=\"/viewworkouts.html\"; return false;'><div class='link'>"+ months[i] +"<br></br>"+j+"</div></a>";
+					scrollDates +="<a href='#' onclick='parent.location=\"/viewworkouts.html?datelog="+year.toString()+"/"+(i+1).toString()+"/"+j.toString()+"\"; return false;'>"+months[i]+"<br></br>"+j+"</a>";
 				}
 			} else if (i == month){
 				for (var j=1; j<= daysInMonth; j++){
 					if (i == month && j == day){
-					 scrollDates += "<a href='/viewworkouts.html' onclick='parent.location=\"/viewworkouts.html\"; return false;'><div class='link'>"+months[i]+"<br></br><font style='text-decoration:underline;'>"+j+"</font></div></a>";
-					} else{
-					scrollDates += "<a href='/viewworkouts.html' onclick='parent.location=\"/viewworkouts.html\"; return false;'><div class='link'>"+ months[i] +"<br></br>"+j+"</div></a>";
+					scrollDates +="<a href='#' onclick='parent.location=\"/viewworkouts.html?datelog="+year.toString()+"/"+(i+1).toString()+"/"+j.toString()+"\";return false;'>"+months[i]+"<br></br><font style='text-decoration:underline;'>"+j+"</font></a>";
+					} else if (j>day){
+					scrollDates +="<a href='#'><font style='color:grey'>"+ months[i] +"<br></br>"+j+"</font></a>";
+					} else {
+					scrollDates +="<a href='#' onclick='parent.location=\"/viewworkouts.html?datelog="+year.toString()+"/"+(i+1).toString()+"/"+j.toString()+"\"; return false;'>"+months[i]+"<br></br>"+j+"</a>";
+					}
+					if (i == endMonth && j == endDay){
+						break;
 					}
 				}
 			} else if (i == (month + 1)){
