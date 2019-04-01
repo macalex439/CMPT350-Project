@@ -6,14 +6,14 @@
 		<title> Workout Login </title>
 	
 		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
- 		<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/ui-darkness/jquery-ui.css">      
-       
-       	<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script> 
+		<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/ui-darkness/jquery-ui.css">
+       	
+       	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script> 
        	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-       	<script src="http://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> 	  	
-      
-		
-		
+       	<script src="http://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+       	
+  		<meta name="viewport" content="width=device-width, initial-scale=1">    	  	
+       	
 		<script type="text/javascript" src="login.js"></script>
 	
 		<style type="text/css">		
@@ -27,6 +27,14 @@
     		background-attachment:scroll;
     		background-size:100% 100%;
 			}
+
+			.page-content{
+			background: url('images/bg/profile-1.jpg');
+			margin: 50px auto;	
+			width: 800px;
+			border-radius: 50px;	
+			}
+						
 			.ui-page {
    			 background: transparent;
 			}
@@ -35,21 +43,16 @@
 			}
 			
 		</style>
-		
-		
 	</head>
 	
 	<body>
-
-	
-	
 	
 	<div data-role = "page" id = "page" data-theme = "d">		
 		<div data-role = "header" data-theme = "b"> <h1>  Sign In To Your GymTracker Account </h1> </div>
 	
 			<br></br><br></br><br></br>
 		
-			<div data-role="content" data-theme = "b" >
+			<div data-role="content" data-theme = "b" class = "page-content">
 				<center><h2><font color = "black" required id = "response"> 
 					Sign In To Your Account </font></h2></center> 
 
@@ -64,6 +67,7 @@
 			
 				<a href="register.html" rel="external" data-transition="fade"> 
 					<center> Click to Register </center> </a>
+				<br></br>	
 				<p>	
 					<div>
 					
@@ -78,15 +82,10 @@
 					</iframe>
 					
 					</div>
-				</p>
-	</div>
+				</p>					
 			</div>
 		
 		</div>
-	</div>
-	
-	
-	
-	
+	</div>	
 	</body>
 </html>
