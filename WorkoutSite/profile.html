@@ -12,7 +12,7 @@
        	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
        	<script src="http://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
        	
-  		<meta name="viewport" content="width=device-width, initial-scale=1">        	
+  		<meta name="viewport" content="width=device-width, initial-scale=0.75">        	
        	
 		<script type="text/javascript" src="/signOut.js"></script>
 		
@@ -31,7 +31,7 @@
 			div.profile-content{
 			background: url('images/bg/profile-1.jpg');
 			margin: 50px auto;	
-			width: 725px;
+			width: 400px;
 			border-radius: 50px;
 			
 			}
@@ -88,47 +88,47 @@
 	
 		<div data-role="content" data-theme = "d" id="page-content">
 			<br></br>
-			<div data-role = "content" data-theme ="b" class="profile-content">
+			<div data-role = "content"s data-theme ="b" class="profile-content">
 				<h3><font id = "response"> Profile </font></h3>
-				<form> <ul data-role='listview' data-inset='true'>
+				<form> <ul  data-role='listview' data-inset='true'>
 			
 				<li class="ui-field-contain" style="background:transparent">
-					<label for="firstname">First Name:</label>
+					First Name:
 					<input type="text" name ="firstname" id="firstname" placeholder="First Name" 
 					value = "" readonly data-mini="true"/>
 				</li>	
 				<li class="ui-field-contain" style="background:transparent">
-					<label for="lastname">Last Name:</label>
-					<input data-wrapper-class="infield"type="text" name ="lastname" id="lastname" placeholder="Last Name" 
+					Last Name:
+					<input type="text" name ="lastname" id="lastname" placeholder="Last Name" 
 					value = "" readonly data-mini="true"/>
 				</li>	
 				<li class="ui-field-contain" style="background:transparent">
-					<label for="birthday">Date of Birth:</label>
+					Date of Birth:
 					<input type="datetime" name ="birthday" id="birthday" placeholder="YYYY/MM/DD" 
 					value = "" data-role="date" readonly data-mini="true"/>
 				</li>
 				<li class="ui-field-contain" style="background:transparent">
-					<label for="weight">Weight (kg):</label>
+					Weight (kg):
 					<input type="number" name="weight" id="weight" placeholder ="Log Your Weight"
 					value="" readonly data-mini="true"/>
 				</li>	
 				<li class="ui-field-contain" style="background:transparent">		
-					<label for="height">Height (cm):</label>
+					Height (cm):
 					<input type="number" name="height" id="height" placeholder ="Log Your Height"
 					value="" readonly data-mini="true"/>
 				</li>	
 				<li class="ui-field-contain" style="background:transparent">
-					<label for="squat">Squat PR (kg):</label>
+					Squat PR (kg):
 					<input type="text"name="squat" id="squat" placeholder="No Squat PR Recorded"
 					value ="" readonly data-mini="true"/>
 				</li>	
 				<li class="ui-field-contain" style="background:transparent">
-					<label for="bench">Benchpress PR (kg):</label>
+					Benchpress PR (kg):
 					<input type="text"name="bench" id="bench" placeholder="No Benchpress PR Recorded"
 					value ="" readonly data-mini="true"/>	
 				</li>
 				<li class="ui-field-contain" style="background:transparent">
-					<label for="deadl">Deadlift PR (kg):</label>
+					Deadlift PR (kg):
 					<input type="text"name="deadl" id="deadl" placeholder="No Deadlift PR Recorded"
 					value ="" readonly data-mini="true"/>	
 				</li></ul></form>		
@@ -142,17 +142,17 @@
 				<h3>GymTracker Authentification</h3>
 				<form> <ul data-role='listview' data-inset='true'>
 				<li class="ui-field-contain" style="background:transparent">
-					<label for="pw">Password:</label>
+					Password:
 					<input type="password" name="pw" id="pw" placeholder="Password"
 					value ="" data-mini="true" />
 				</li>	
 				<li class="ui-field-contain" style="background:transparent">
-					<label for="newpw">New Password:</label>
+					New Password:
 					<input type="password" name="newpw" id="newpw" placeholder="New Password"
 					value ="" data-mini="true"/>
 				</li>
 				<li class="ui-field-contain" style="background:transparent">
-					<label for="confirmpw">Confirm Password:</label>
+					Confirm Password:
 					<input type="password" name="confirmpw" id="confirmpw" placeholder="Confirm Password"
 					value ="" data-mini="true"/>	
 				</li></ul></form> 
