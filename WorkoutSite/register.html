@@ -6,13 +6,13 @@
 		<title> Register User </title>
 	
 		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
-		<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/ui-darkness/jquery-ui.css">		
-		
-       	<script src="http://code.jquery.com/jquery-1.8.2.min.js"></script> 
-       	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
-       	<script src="http://code.jquery.com/ui/1.12.1/jquery-ui.js"></script> 	
+		<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/ui-darkness/jquery-ui.css">
        	
-  		<meta name="viewport" content="width=device-width, initial-scale=1">        	
+       	<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script> 
+       	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+       	<script src="http://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+       	
+  		<meta name="viewport" content="width=device-width, initial-scale=1">         	
        	
 		<script type="text/javascript" src="register.js"></script>
 	
@@ -27,12 +27,14 @@
     		background-attachment:scroll;
     		background-size:100% 100%;
 			}
-			.ui-page {
-   			 background: transparent;
+			
+			.page-content{
+			background: url('images/bg/profile-1.jpg');
+			margin: 50px auto;	
+			width: 800px;
+			border-radius: 50px;	
 			}
-			.ui-content{
-    		background: transparent;
-			}			
+			
 		</style>
 	</head>
 	
@@ -40,9 +42,9 @@
 	<div data-role = "page" id = "page" data-theme = "d">		
 		<div data-role = "header" data-theme ="b"> <h1> Create Your GymTracker Account </h1> </div>
 	
-			<br></br><br></br><br></br>
-		
-			<div data-role="content" data-theme = "b">
+			<br></br><br></br>
+			
+			<div data-role="content" data-theme = "b" class="page-content">
 				<center><h2><font color = "black" required id = "response"> 
 					Create An Account </font></h2></center> 
 
@@ -53,17 +55,32 @@
 		   			placeholder = "Create A Password" data-clear-btn = "true"> </input></center>
 		   
 				<center><input data-wrapper-class="infield" id = "confirmpassword" type = "password" required
-					placeholder = "Confirm Password" data-clear-btn = "true">></input></center>
+					placeholder = "Confirm Password" data-clear-btn = "true"></input></center>
 	
 				<center><button id = "register" type = "button" onclick = "register()" 
 					data-inline="true">Register </button></center>
 				
 				<a href="login.html" rel="external" data-transition="fade"> 
 				<center> Click to Sign In</center> </a>
-		
-			</div>
-		</div>
-	</div>		
+
+				<br></br>	
+				
+				<p>	
+					<div>
+					
+					<iframe alight = 'left' src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FAthleanX&tabs=timeline&width=250&height=300&
+						small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=true&appId" width="250" height="300" style="border:none;overflow:
+						hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media">
+					</iframe>
+					
+					<iframe align = 'right' src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FBodybuildingcom&tabs=timeline&width=250&
+						height=300&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=true&appId" width="250" height="300" style="border:
+						none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media">
+					</iframe>
+					
+					</div>
+				</p>				
+			</div>		
 	</body>
 
 </html>
