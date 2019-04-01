@@ -60,8 +60,11 @@ $(document).ready(function(){
 			$('#firstname').val(JSON.parse(data)[0].fname);
 			$('#lastname').val(JSON.parse(data)[0].lname);
 			$('#birthday').val((JSON.parse(data)[0].birthday).substr(0,10));
-			$('#weight').val(JSON.parse(data)[0].weight);
+			$('#weight').val((JSON.parse(data)[0]).weight);
 			$('#height').val(JSON.parse(data)[0].height);
+			$('#bench').val((JSON.parse(data)[0]).bench.toString());
+			$('#squat').val((JSON.parse(data)[0]).squat.toString());
+			$('#deadl').val((JSON.parse(data)[0]).dead.toString());
 		});
 	}
 	
